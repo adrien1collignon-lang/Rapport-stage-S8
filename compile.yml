@@ -1,0 +1,24 @@
+name: Compile LaTeX
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Compile PDF
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: rapport_collignon.tex
+          latexmk_use_lualatex: false
+          extra_system_packages: "biber"
+          args: -pdf -interaction=nonstopmode -shell-escape
+
+      - name: Upload PDF
+        uses: actions/upload-artifact@v4
+        with:
+          name: rapport-PDF
+          path: rapport_collignon.pdf
